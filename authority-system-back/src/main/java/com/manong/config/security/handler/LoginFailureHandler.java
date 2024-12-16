@@ -1,5 +1,6 @@
 package com.manong.config.security.handler;
 import com.alibaba.fastjson.JSON;
+import com.manong.config.security.exception.CustomerAuthenticationException;
 import com.manong.utils.Result;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
@@ -37,7 +38,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             message = "账户被锁,登录失败！";
          }else if(exception instanceof InternalAuthenticationServiceException){
             message = "账户不存在,登录失败！";
-         }else{
+         }else if(exception instanceof CustomerAuthenticationException){
+            message = exception.getMessage();
+            code = 600;
+        }else{
             message = "登录失败！";
         }
         //将错误信息转换成JSON
