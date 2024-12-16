@@ -1,5 +1,10 @@
 import request from '@/utils/request'
 
+/**
+ * 用户登录方法
+ * @param  data 
+ * @returns 
+ */
 export function login(data) {
   return request({
     url: '/vue-element-admin/user/login',
