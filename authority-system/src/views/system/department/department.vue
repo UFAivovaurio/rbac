@@ -20,8 +20,22 @@
       <el-table-column prop="address" label="部门位置"></el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button icon="el-icon-edit-outline" type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button icon="el-icon-close" type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button
+            icon="el-icon-edit-outline"
+            type="primary"
+            size="small"
+            @click="handleEdit(scope.row)"
+          >
+            编辑
+          </el-button>
+          <el-button
+            icon="el-icon-close"
+            type="danger"
+            size="small"
+            @click="handleDelete(scope.row)"
+          >
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -31,9 +45,8 @@
       <div slot="content">
         <el-form :model="dept" ref="deptForm" :rules="rules" label-width="80px" inline="true" size="small">
           <el-form-item label="所属部门" prop="parentName">
-    <el-input v-model="dept.parentName" :readonly="true" 
-              @click.native="selectDepartment()"></el-input>
-</el-form-item>
+            <el-input v-model="dept.parentName" :readonly="true" @click.native="selectDepartment()"></el-input>
+          </el-form-item>
           <el-form-item label="部门名称" prop="departmentName">
             <el-input v-model="dept.departmentName"></el-input>
           </el-form-item>
@@ -147,57 +160,55 @@ export default {
     onClose() {
       this.deptDialog.visible = false;
     },
-    /**
- * 弹窗确认事件
- */
-onConfirm() {
-  //表单验证
-  this.$refs.deptForm.validate( async (valid) => {
-    //如果验证通过
-    if (valid) {
-      let res = null;//后端返回的数据
-      //判断部门ID是否有数据，如果部门ID为空，则表示新增，否则就是修改
-      if(this.dept.id===''){//新增
-        //发送新增请求
-        res =  await departmentApi.addDept(this.dept);
-     }else{
-        //发送修改请求
-       
-     }
-      //判断是否成功
-      if (res.success) {
-        this.$message.success(res.message);
-        //刷新
-        this.search();
-        //关闭窗口
-        this.deptDialog.visible = false;
-     } else {
-        this.$message.error(res.message);
-     }
-   }
- });
-},
-
+    async onConfirm() {
+      this.$refs.deptForm.validate(async (valid) => {
+        if (valid) {
+          let res = null;
+          if (this.dept.id === '') {
+            res = await departmentApi.addDept(this.dept);
+          } else {
+            res = await departmentApi.updateDept(this.dept);
+          }
+          if (res.success) {
+            this.$message.success(res.message);
+            this.search();
+            this.deptDialog.visible = false;
+          } else {
+            this.$message.error(res.message);
+          }
+        }
+      });
+    },
     openAddWindow() {
-  //清空表单数据
-  this.$resetForm("deptForm", this.dept);
-  //设置窗口标题
-  this.deptDialog.title = "新增部门";
-  //显示添加部门窗口
-  this.deptDialog.visible = true;
-},
-
-    handleEdit(row) {
-      this.deptDialog.title = '编辑部门';
-      this.dept = { ...row };
+      this.$resetForm('deptForm', this.dept);
+      this.deptDialog.title = '新增部门';
       this.deptDialog.visible = true;
     },
-    handleDelete(row) {
-      console.log('删除部门', row);
+    handleEdit(row) {
+      this.$objCopy(row, this.dept);
+      this.deptDialog.title = '编辑部门';
+      this.deptDialog.visible = true;
+    },
+    async handleDelete(row) {
+      let result = await departmentApi.checkDepartment({ id: row.id });
+      if (!result.success) {
+        this.$message.warning(result.message);
+      } else {
+        let confirm = await this.$myconfirm('确定要删除该数据吗?');
+        if (confirm) {
+          let res = await departmentApi.deleteById({ id: row.id });
+          if (res.success) {
+            this.$message.success(res.message);
+            this.search();
+          } else {
+            this.$message.error(res.message);
+          }
+        }
+      }
     },
     async selectDepartment() {
       this.parentDialog.visible = true;
-      this.parentDialog.title = "选择所属部门";
+      this.parentDialog.title = '选择所属部门';
       let res = await departmentApi.getParentTreeList();
       if (res.success) {
         this.treeList = res.data;
@@ -254,5 +265,6 @@ onConfirm() {
     .tree :first-child .el-tree-node:before {
       border-left: none;
     }
-    .el-tree-node:before {
-      border-left: 1
+  }
+}
+</style>

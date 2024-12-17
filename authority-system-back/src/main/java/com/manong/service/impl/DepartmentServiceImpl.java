@@ -34,7 +34,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         QueryWrapper<Department> queryWrapper = new QueryWrapper<Department>();
         //部门名称
 
-        queryWrapper.like(!ObjectUtils.isEmpty(departmentQueryVo.getDepartmentName()),"d epartment_name",departmentQueryVo.getDepartmentName());
+        queryWrapper.like(!ObjectUtils.isEmpty(departmentQueryVo.getDepartmentName()),"department_name",departmentQueryVo.getDepartmentName());
         //排序
         queryWrapper.orderByAsc("order_num");
         //查询部门列表

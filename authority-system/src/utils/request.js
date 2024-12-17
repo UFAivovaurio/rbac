@@ -135,12 +135,12 @@ const http = {
     }
     if (_params) {
       return service.delete(`${url}${_params}`).catch(err => {
-        message.error(err.msg)
+        Message.error(err.msg)
         return Promise.reject(err)
       })
     } else {
       return service.delete(url).catch(err => {
-        message.error(err.msg)
+        Message.error(err.msg)
         return Promise.reject(err)
       })
     }

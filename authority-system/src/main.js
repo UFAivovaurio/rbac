@@ -25,6 +25,9 @@ import myconfirm from '@/utils/myconfirm'
 
 //导入清空表单工具
 import resetForm from '@/utils/resetForm'
+//导入快速复制对象工具
+import objCopy from '@/utils/objCopy'
+Vue.prototype.$objCopy = objCopy;
 
 Vue.prototype.$resetForm = resetForm;
 

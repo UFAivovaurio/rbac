@@ -1,38 +1,36 @@
-import request from '@/utils/request'
+import http from '@/utils/request'
 
 export function getRoutes() {
-  return request({
-    url: '/vue-element-admin/routes',
-    method: 'get'
-  })
+
 }
 
-export function getRoles() {
-  return request({
-    url: '/vue-element-admin/roles',
-    method: 'get'
-  })
+export async function getRoles(params) {
+  return await http.get('/api/role/list', params);
 }
 
-export function addRole(data) {
-  return request({
-    url: '/vue-element-admin/role',
-    method: 'post',
-    data
-  })
+export async function addRole(params) {
+  return await http.post("/api/role/add", params);
 }
 
-export function updateRole(id, data) {
-  return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'put',
-    data
-  })
+export async function updateRole(params) {
+  return await http.put("/api/role/update", params);
 }
 
-export function deleteRole(id) {
-  return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'delete'
-  })
+export async function checkRole(params) {
+  return await http.getRestApi("/api/role/check", params);
 }
+
+export async function deleteRole(params) {
+  return await http.delete("/api/role/delete", params);
+}
+export async function getAssignTree(params) {
+  return await http.get("/api/role/getAssignPermissionTree", params);
+}
+/**
+ * 分配权限
+ * @returns
+ */
+export async function assignSave(params) {
+  return await http.post("/api/role/saveRoleAssign", params);
+}
+

@@ -66,6 +66,7 @@ public class DepartmentController {
   */
  @GetMapping("/check/{id}")
  public Result check(@PathVariable Long id){
+
   //调用查询部门下是否存在子部门的方法
   if(departmentService.hasChildrenOfDepartment(id)){
    return Result.exist().message("该部门下存在子部门，无法删除");
