@@ -31,7 +31,7 @@
            width="100"
            align="center"
          ></el-table-column>
-      <el-table-column prop="name" label="角色名称"></el-table-column>
+      <el-table-column prop="roleName" label="角色名称"></el-table-column>
       <el-table-column prop="remark" label="角色备注"></el-table-column>
       <el-table-column label="操作" align="center" width="290">
         <template slot-scope="scope">
@@ -201,7 +201,7 @@ export default {
         this.searchModel.pageSize = pageSize;
 
         let res = await getRoles(this.searchModel);
-        console.log(res);
+  
         if(res.success){
             this.roleList = res.data.records;
             this.total = res.data.total;
