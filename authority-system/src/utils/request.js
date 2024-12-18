@@ -104,8 +104,7 @@ const http = {
       for (const key in params) {
         console.log(key)
         console.log(params[key])
-        if (params.hasOwnProperty(key) && params[key] !== null && params[key]
-          !== '') {
+        if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
           _params += `${params[key]}/`
         }
       }
@@ -126,8 +125,7 @@ const http = {
       _params = '/'
       for (const key in params) {
         // eslint-disable-next-line no-prototype-builtins
-        if (params.hasOwnProperty(key) && params[key] !== null && params[key]
-          !== '') {
+        if (params.hasOwnProperty(key) && params[key] !== null && params[key] !== '') {
           _params += `${params[key]}/`
         }
       }

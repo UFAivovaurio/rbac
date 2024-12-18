@@ -89,5 +89,11 @@ public class RoleController {
             return Result.error().message("权限分配失败");
         }
     }
+
+    @GetMapping("/check/{id}")
+    public Result check(@PathVariable Long id){
+
+        return Result.ok();
+    }
 }
 
